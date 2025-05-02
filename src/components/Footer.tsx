@@ -1,11 +1,13 @@
+"use client";
+import dynamic from "next/dynamic";
 import { FaInstagram, FaTwitter, FaFacebook, FaPhone, FaEnvelope } from "react-icons/fa";
-import { motion } from "framer-motion";
+const MotionDiv = dynamic(() => import("framer-motion").then(mod => mod.motion.div), { ssr: false });
 
 export default function Footer() {
   return (
     <footer className="w-full bg-white dark:bg-black border-t border-blue-100 dark:border-gray-800 py-8 mt-12">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 px-4">
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.5 }}
@@ -18,8 +20,8 @@ export default function Footer() {
             <FaPhone /> 0212 123 45 67
             <FaEnvelope className="ml-4" /> info@teknikservis.com
           </div>
-        </motion.div>
-        <motion.div
+        </MotionDiv>
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.5 }}
@@ -29,7 +31,7 @@ export default function Footer() {
           <a href="#" className="btn-soft text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300" aria-label="Instagram"><FaInstagram /></a>
           <a href="#" className="btn-soft text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300" aria-label="Twitter"><FaTwitter /></a>
           <a href="#" className="btn-soft text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300" aria-label="Facebook"><FaFacebook /></a>
-        </motion.div>
+        </MotionDiv>
       </div>
       <div className="text-center text-xs text-gray-400 dark:text-gray-600 mt-6">© {new Date().getFullYear()} TeknikServis. Tüm hakları saklıdır.</div>
     </footer>

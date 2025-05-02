@@ -1,5 +1,7 @@
-import { motion } from "framer-motion";
+"use client";
+import dynamic from "next/dynamic";
 import { FaUserCircle, FaStar } from "react-icons/fa";
+const MotionDiv = dynamic(() => import("framer-motion").then(mod => mod.motion.div), { ssr: false });
 
 const testimonials = [
   {
@@ -30,7 +32,7 @@ export default function Testimonials() {
       </h2>
       <div className="flex flex-wrap justify-center gap-8 px-4">
         {testimonials.map((t, i) => (
-          <motion.div
+          <MotionDiv
             key={i}
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -53,7 +55,7 @@ export default function Testimonials() {
             </div>
             <p className="text-gray-700 dark:text-gray-200 text-center mb-2">“{t.comment}”</p>
             <span className="text-sm font-semibold text-blue-700 dark:text-blue-300 mt-2">{t.name}</span>
-          </motion.div>
+          </MotionDiv>
         ))}
       </div>
     </section>

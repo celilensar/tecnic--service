@@ -1,6 +1,7 @@
 "use client";
 import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
-import { motion } from "framer-motion";
+import dynamic from "next/dynamic";
+const MotionDiv = dynamic(() => import("framer-motion").then(mod => mod.motion.div), { ssr: false });
 
 const containerStyle = {
   width: "100%",
@@ -25,7 +26,7 @@ export default function MapSection() {
       <h2 className="text-3xl md:text-4xl font-bold text-center mb-10 text-gray-900 dark:text-white">
         Konumumuz
       </h2>
-      <motion.div
+      <MotionDiv
         initial={{ opacity: 0, y: 40 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.5 }}
@@ -65,7 +66,7 @@ export default function MapSection() {
             Harita yükleniyor...
           </div>
         )}
-      </motion.div>
+      </MotionDiv>
     </section>
   );
 } 
