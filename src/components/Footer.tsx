@@ -14,7 +14,7 @@ export default function Footer() {
           transition={{ duration: 0.7 }}
           className="text-center md:text-left"
         >
-          <div className="font-bold text-xl text-blue-600 dark:text-blue-400 mb-1">TeknikServis</div>
+          <div className="font-bold text-xl text-blue-600 dark:text-blue-400 mb-1">Muratusta</div>
           <div className="text-gray-600 dark:text-gray-300 text-sm mb-2">Tüm cihazlarınız için güvenilir teknik servis hizmeti.</div>
           <div className="flex items-center gap-3 text-gray-500 dark:text-gray-400 text-sm justify-center md:justify-start">
             <FaPhone /> 0212 123 45 67
@@ -33,7 +33,7 @@ export default function Footer() {
           <a href="#" className="btn-soft text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300" aria-label="Facebook"><FaFacebook /></a>
         </MotionDiv>
       </div>
-      <div className="text-center text-xs text-gray-400 dark:text-gray-600 mt-6">© {new Date().getFullYear()} TeknikServis. Tüm hakları saklıdır.</div>
+      <div className="text-center text-xs text-gray-400 dark:text-gray-600 mt-6">© {new Date().getFullYear()} Muratusta. Tüm hakları saklıdır.</div>
     </footer>
   );
 } 

@@ -1,7 +1,7 @@
 "use client";
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/card";
-import { FaTools, FaCogs, FaRecycle, FaFire, FaShoppingCart } from "react-icons/fa";
+import { FaTools, FaCogs, FaRecycle, FaFire, FaShoppingCart, FaSnowflake } from "react-icons/fa";
 
 const services = [
   {
@@ -28,6 +28,11 @@ const services = [
     title: "Kombi Yedek Parça",
     icon: <FaShoppingCart className="text-3xl text-pink-500" />,
     description: "Kombi ve ısıtma sistemleriniz için orijinal yedek parça temini ve montajı."
+  },
+  {
+    title: "Klima Bakım & Onarım",
+    icon: <FaSnowflake className="text-3xl text-cyan-500" />,
+    description: "Klimalarınızın düzenli bakımı, performans kontrolü ve arıza onarımı hizmetleri."
   },
 ];
 

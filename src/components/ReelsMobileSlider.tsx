@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaPlay } from "react-icons/fa";
+import { IoChevronDown } from "react-icons/io5";
 
 interface Reel {
   id: string;
@@ -31,7 +32,7 @@ export default function ReelsMobileSlider({ reels }: Props) {
   };
 
   return (
-    <div className="relative h-[80vh] overflow-hidden">
+    <div className="relative h-[80vh] overflow-hidden rounded-lg">
       <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 bg-black/20 backdrop-blur-sm px-3 py-1 rounded-full text-white text-sm">
         {currentReel + 1} / {reels.length}
       </div>
@@ -66,7 +67,7 @@ export default function ReelsMobileSlider({ reels }: Props) {
             transition={{ duration: 0.5 }}
             onClick={() => handleVideoPlay(reel.id)}
           >
-            <div className="w-full h-full bg-background/80 backdrop-blur-sm rounded-lg overflow-hidden border border-blue-500/10 relative">
+            <div className="w-full h-full bg-background/80 backdrop-blur-sm overflow-hidden border border-blue-500/10 relative">
               <video
                 id={`mobile-${reel.id}`}
                 src={reel.src}
@@ -85,7 +86,11 @@ export default function ReelsMobileSlider({ reels }: Props) {
                   </div>
                 </div>
               )}
-              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
+              <div
+                className="absolute bottom-0 left-0 right-0 h-2/5 bg-gradient-to-t from-black/80 to-transparent pointer-events-none"
+                aria-hidden="true"
+              />
+              <div className="absolute bottom-10 left-0 right-0 p-4">
                 <p className="text-white font-medium">{reel.title}</p>
                 <p className="text-white/70 text-sm mt-1">{reel.description}</p>
               </div>
@@ -93,6 +98,23 @@ export default function ReelsMobileSlider({ reels }: Props) {
           </motion.div>
         ))}
       </motion.div>
+
+      {currentReel < reels.length - 1 && (
+        <motion.div
+          className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 text-white/70"
+          animate={{
+            y: [0, 8, 0],
+          }}
+          transition={{
+            duration: 1.5,
+            repeat: Infinity,
+            repeatType: "loop",
+            ease: "easeInOut",
+          }}
+        >
+          <IoChevronDown size={28} />
+        </motion.div>
+      )}
     </div>
   );
 } 

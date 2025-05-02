@@ -55,7 +55,7 @@ export default function Reels() {
     <section id="reels" className="py-20 relative">
       <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 via-transparent to-blue-500/5" />
       <div className="container mx-auto px-4 relative">
-        <h2 className="text-2xl md:text-3xl font-bold text-center mb-4">Reels</h2>
+        <h2 className="text-2xl md:text-3xl font-bold text-center mb-4">Galeri</h2>
         <p className="text-muted-foreground text-center mb-8 md:mb-12 max-w-xl md:max-w-2xl mx-auto text-sm md:text-base">
           Servis hizmetlerimizden örnekler ve müşteri memnuniyeti videolarımız
         </p>
