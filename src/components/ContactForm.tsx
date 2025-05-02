@@ -15,6 +15,13 @@ const KONULAR = [
   { value: "diger", label: "Diğer" },
 ];
 
+interface FormData {
+  name: string;
+  email: string;
+  konu: string;
+  message: string;
+}
+
 export default function ContactForm() {
   const {
     register,
@@ -22,12 +29,12 @@ export default function ContactForm() {
     reset,
     control,
     formState: { errors },
-  } = useForm();
+  } = useForm<FormData>();
 
   const [isSubmitSuccessful, setIsSubmitSuccessful] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: FormData) => {
     setIsSubmitSuccessful(false);
     setSubmitError(null);
     try {

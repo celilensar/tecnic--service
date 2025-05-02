@@ -23,8 +23,6 @@ const reels = [
     description: "Petek ve kalorifer sistemlerinizin verimli çalışması için profesyonel temizlik." },
 ];
 
-const MotionDiv = dynamic(() => import("framer-motion").then(mod => mod.motion.div), { ssr: false });
-
 function useIsMobile() {
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {

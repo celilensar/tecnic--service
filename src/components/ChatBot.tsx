@@ -7,7 +7,6 @@ import { MessageCircle, X, Send, MessageSquare } from "lucide-react";
 export default function ChatBot() {
   const [isChatOpen, setIsChatOpen] = useState(true);
   const [message, setMessage] = useState("");
-  const [isTyping, setIsTyping] = useState(false);
 
   const handleSendMessage = () => {
     if (message.trim()) {
@@ -87,23 +86,6 @@ export default function ChatBot() {
                   <p className="text-sm text-foreground">Merhaba! Size nasıl yardımcı olabiliriz?</p>
                 </div>
               </div>
-
-              {/* Typing indicator */}
-              {isTyping && (
-                <div className="flex items-start gap-3">
-                   <div className="w-8 h-8 bg-blue-500/10 rounded-full flex items-center justify-center flex-shrink-0">
-                    <MessageCircle className="w-4 h-4 text-blue-500" />
-                  </div>
-                   <div className="bg-blue-500/10 rounded-2xl rounded-tl-none p-3">
-                    <div className="flex gap-1 items-center h-4">
-                       {/* Typing dots stilleri orijinaldeki gibi */}
-                      <div className="w-2 h-2 bg-blue-500/50 rounded-full animate-bounce" />
-                      <div className="w-2 h-2 bg-blue-500/50 rounded-full animate-bounce delay-100" />
-                      <div className="w-2 h-2 bg-blue-500/50 rounded-full animate-bounce delay-200" />
-                    </div>
-                  </div>
-                </div>
-              )}
             </div>
 
             {/* Chat Input - Stiller orijinal koda göre güncellendi */}

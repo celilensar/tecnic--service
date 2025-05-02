@@ -2,7 +2,6 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { FaInstagram, FaTwitter, FaFacebook, FaPhone, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
-const MotionDiv = dynamic(() => import("framer-motion").then(mod => mod.motion.div), { ssr: false });
 
 const navLinks = [
   { name: "Ana Sayfa", href: "#hero" },
