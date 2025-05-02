@@ -55,13 +55,13 @@ export default function Reels() {
     <section id="reels" className="py-20 relative">
       <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 via-transparent to-blue-500/5" />
       <div className="container mx-auto px-4 relative">
-        <h2 className="text-3xl font-bold text-center mb-4">Reels</h2>
-        <p className="text-muted-foreground text-center mb-12 max-w-2xl mx-auto">
+        <h2 className="text-2xl md:text-3xl font-bold text-center mb-4">Reels</h2>
+        <p className="text-muted-foreground text-center mb-8 md:mb-12 max-w-xl md:max-w-2xl mx-auto text-sm md:text-base">
           Servis hizmetlerimizden örnekler ve müşteri memnuniyeti videolarımız
         </p>
 
         {!isMobile && (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {reels.map((reel) => (
               <motion.div
                 key={reel.id}
@@ -98,9 +98,9 @@ export default function Reels() {
                     </div>
                   </div>
                 )}
-                <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/60 to-transparent">
-                  <p className="text-white font-medium">{reel.title}</p>
-                  <p className="text-white/70 text-sm mt-1">{reel.description}</p>
+                <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4 bg-gradient-to-t from-black/60 to-transparent">
+                  <p className="text-white font-medium text-sm md:text-base">{reel.title}</p>
+                  <p className="text-white/70 text-xs md:text-sm mt-1">{reel.description}</p>
                 </div>
               </motion.div>
             ))}

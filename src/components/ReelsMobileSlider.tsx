@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FaPlay } from "react-icons/fa";
 
@@ -17,6 +17,11 @@ interface Props {
 export default function ReelsMobileSlider({ reels }: Props) {
   const [isPlaying, setIsPlaying] = useState<{ [key: string]: boolean }>({});
   const [currentReel, setCurrentReel] = useState(0);
+  const [dragReady, setDragReady] = useState(false);
+
+  useEffect(() => {
+    setDragReady(true);
+  }, []);
 
   const handleVideoPlay = (id: string) => {
     setIsPlaying((prev) => ({ ...prev, [id]: true }));
@@ -33,11 +38,11 @@ export default function ReelsMobileSlider({ reels }: Props) {
       {/* Reels */}
       <motion.div
         className="h-full"
-        drag="y"
+        drag={dragReady ? "y" : false}
         dragConstraints={{ top: 0, bottom: 0 }}
         dragElastic={0.2}
         onDragEnd={(e, info) => {
-          if (Math.abs(info.offset.y) > 100) {
+          if (dragReady && Math.abs(info.offset.y) > 100) {
             if (info.offset.y > 0 && currentReel > 0) {
               setCurrentReel((prev) => prev - 1);
               setIsPlaying({});
