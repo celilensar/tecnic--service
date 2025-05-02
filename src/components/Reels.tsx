@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
 import { motion, useInView } from "framer-motion";
+import { FaPlay } from "react-icons/fa";
 import ReelsMobileSlider from "./ReelsMobileSlider";
 
 const reels = [
@@ -36,12 +37,33 @@ function useIsMobile() {
 }
 
 export default function Reels() {
-  const [currentReel, setCurrentReel] = useState(0);
   const isMobile = useIsMobile();
   const sectionRef = useRef(null);
-  const isInView = useInView(sectionRef, { 
-    margin: "0px 0px -50% 0px"
-  });
+  const isInView = useInView(sectionRef, { margin: "0px 0px -50% 0px" });
+
+  const [playingVideoId, setPlayingVideoId] = useState<string | null>(null);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+
+  useEffect(() => {
+    videoRefs.current.forEach((videoEl, index) => {
+      if (videoEl) {
+        const reelId = reels[index]?.id;
+        if (reelId === playingVideoId) {
+          videoEl.currentTime = 0;
+          const playPromise = videoEl.play();
+          if (playPromise !== undefined) {
+            playPromise.catch(error => console.error("Error attempting to play video:", error));
+          }
+        } else {
+          videoEl.pause();
+        }
+      }
+    });
+  }, [playingVideoId]);
+
+  const handleVideoPlay = (id: string) => {
+    setPlayingVideoId(prevId => prevId === id ? null : id);
+  };
 
   return (
     <section 
@@ -58,7 +80,7 @@ export default function Reels() {
 
         {!isMobile && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {reels.map((reel) => (
+            {reels.map((reel, index) => (
               <motion.div
                 key={reel.id}
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -73,18 +95,26 @@ export default function Reels() {
                   stiffness: 300,
                   damping: 20,
                 }}
-                className="aspect-[9/16] bg-background/80 backdrop-blur-sm rounded-lg overflow-hidden border border-blue-500/10 relative group"
+                className="aspect-[9/16] bg-black dark:bg-gray-800/50 rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700/50 relative group cursor-pointer"
+                onClick={() => handleVideoPlay(reel.id)}
               >
                 <video
+                  ref={el => { videoRefs.current[index] = el; }}
                   id={reel.id}
                   src={reel.src}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain transition-opacity duration-300"
                   loop
                   playsInline
-                  autoPlay
-                  muted
+                  style={{ opacity: playingVideoId === reel.id ? 1 : 0.7 }}
                 />
-                <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4 bg-gradient-to-t from-black/60 to-transparent pointer-events-none">
+                {playingVideoId !== reel.id && (
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/30">
+                      <FaPlay className="w-6 h-6 text-white" />
+                    </div>
+                  </div>
+                )}
+                <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4 bg-gradient-to-t from-black/80 to-transparent pointer-events-none">
                   <p className="text-white font-medium text-sm md:text-base">{reel.title}</p>
                   <p className="text-white/70 text-xs md:text-sm mt-1">{reel.description}</p>
                 </div>

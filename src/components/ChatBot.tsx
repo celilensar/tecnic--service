@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { MessageCircle, X, Send, MessageSquare } from "lucide-react";
 
 export default function ChatBot() {
-  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [isChatOpen, setIsChatOpen] = useState(true);
   const [message, setMessage] = useState("");
   const [isTyping, setIsTyping] = useState(false);
 
@@ -39,7 +39,7 @@ export default function ChatBot() {
           className="w-14 h-14 rounded-full bg-blue-600 hover:bg-blue-700 text-white shadow-lg"
           aria-label="Chat'i Aç"
         >
-          <MessageSquare className="w-6 h-6" />
+          {isChatOpen ? <X className="w-6 h-6" /> : <MessageSquare className="w-6 h-6" />}
         </Button>
       </motion.div>
 
