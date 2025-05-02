@@ -1,8 +1,7 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import dynamic from "next/dynamic";
-import { motion } from "framer-motion";
-import { FaPlay, FaChevronUp, FaChevronDown } from "react-icons/fa";
+import { motion, useInView } from "framer-motion";
 import ReelsMobileSlider from "./ReelsMobileSlider";
 
 const reels = [
@@ -37,22 +36,19 @@ function useIsMobile() {
 }
 
 export default function Reels() {
-  const [isPlaying, setIsPlaying] = useState<{ [key: string]: boolean }>({});
   const [currentReel, setCurrentReel] = useState(0);
-  const [isClient, setIsClient] = useState(false);
   const isMobile = useIsMobile();
-  useEffect(() => { setIsClient(true); }, []);
-
-  const handleVideoPlay = (id: string) => {
-    setIsPlaying((prev) => ({ ...prev, [id]: true }));
-    // Diğer videoları durdur
-    Object.keys(isPlaying).forEach((key) => {
-      if (key !== id && isPlaying[key]) setIsPlaying((prev) => ({ ...prev, [key]: false }));
-    });
-  };
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { 
+    margin: "0px 0px -50% 0px"
+  });
 
   return (
-    <section id="reels" className="py-20 relative">
+    <section 
+      id="reels" 
+      ref={sectionRef}
+      className="py-20 relative"
+    >
       <div className="absolute inset-0 bg-gradient-to-b from-blue-500/5 via-transparent to-blue-500/5" />
       <div className="container mx-auto px-4 relative">
         <h2 className="text-2xl md:text-3xl font-bold text-center mb-4">Galeri</h2>
@@ -77,8 +73,7 @@ export default function Reels() {
                   stiffness: 300,
                   damping: 20,
                 }}
-                className="aspect-[9/16] bg-background/80 backdrop-blur-sm rounded-lg overflow-hidden cursor-pointer border border-blue-500/10 relative group"
-                onClick={() => handleVideoPlay(reel.id)}
+                className="aspect-[9/16] bg-background/80 backdrop-blur-sm rounded-lg overflow-hidden border border-blue-500/10 relative group"
               >
                 <video
                   id={reel.id}
@@ -86,19 +81,10 @@ export default function Reels() {
                   className="w-full h-full object-cover"
                   loop
                   playsInline
+                  autoPlay
                   muted
-                  autoPlay={isPlaying[reel.id]}
-                  onPlay={() => setIsPlaying((prev) => ({ ...prev, [reel.id]: true }))}
-                  onPause={() => setIsPlaying((prev) => ({ ...prev, [reel.id]: false }))}
                 />
-                {!isPlaying[reel.id] && (
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                    <div className="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/20 group-hover:bg-blue-500/40 transition-all duration-300">
-                      <FaPlay className="w-8 h-8 text-white" />
-                    </div>
-                  </div>
-                )}
-                <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4 bg-gradient-to-t from-black/60 to-transparent">
+                <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4 bg-gradient-to-t from-black/60 to-transparent pointer-events-none">
                   <p className="text-white font-medium text-sm md:text-base">{reel.title}</p>
                   <p className="text-white/70 text-xs md:text-sm mt-1">{reel.description}</p>
                 </div>
@@ -106,7 +92,7 @@ export default function Reels() {
             ))}
           </div>
         )}
-        {isMobile && <ReelsMobileSlider reels={reels} />}
+        {isMobile && <ReelsMobileSlider reels={reels} isInView={isInView} />}
       </div>
     </section>
   );

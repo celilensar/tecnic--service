@@ -3,6 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import dynamic from "next/dynamic";
 import { FaPaperPlane } from "react-icons/fa";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useState } from "react";
 const MotionForm = dynamic(() => import("framer-motion").then(mod => mod.motion.form), { ssr: false });
 const MotionButton = dynamic(() => import("framer-motion").then(mod => mod.motion.button), { ssr: false });
 const MotionDiv = dynamic(() => import("framer-motion").then(mod => mod.motion.div), { ssr: false });
@@ -20,12 +21,34 @@ export default function ContactForm() {
     handleSubmit,
     reset,
     control,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
   } = useForm();
 
+  const [isSubmitSuccessful, setIsSubmitSuccessful] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+
   const onSubmit = (data: any) => {
-    console.log(data);
-    reset();
+    setIsSubmitSuccessful(false);
+    setSubmitError(null);
+    try {
+      const subject = KONULAR.find(k => k.value === data.konu)?.label || data.konu || 'İletişim Formu';
+      const body = `Ad Soyad: ${data.name}\nE-posta: ${data.email}\n\nMesaj:\n${data.message}`;
+      
+      const mailtoLink = `mailto:ensar.avc231@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      
+      window.location.href = mailtoLink;
+      
+      setIsSubmitSuccessful(true);
+      reset();
+
+      setTimeout(() => {
+        setIsSubmitSuccessful(false);
+      }, 5000);
+
+    } catch (error) {
+      console.error("Mailto link error:", error);
+      setSubmitError("E-posta istemcisi açılamadı.");
+    }
   };
 
   // Google Maps Embed URL for the specified address
@@ -44,7 +67,7 @@ export default function ContactForm() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.7 }}
-            className="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 sm:p-8 flex flex-col gap-5 border border-blue-100 dark:border-gray-700 h-full"
+            className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 sm:p-8 flex flex-col gap-5 border border-blue-100 dark:border-gray-700 h-full"
           >
             <h3 className="text-xl font-semibold mb-2 text-gray-800 dark:text-white">Bize Yazın</h3>
             <div>
@@ -123,15 +146,28 @@ export default function ContactForm() {
             >
               <FaPaperPlane /> Mesajı Gönder
             </MotionButton>
-            {isSubmitSuccessful && (
-              <MotionDiv
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="text-green-600 text-center mt-1 text-sm font-medium"
-              >
-                Mesajınız başarıyla gönderildi!
-              </MotionDiv>
-            )}
+            <div className="h-6 mt-1">
+              {isSubmitSuccessful && (
+                <MotionDiv
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="text-green-600 dark:text-green-400 text-center text-sm font-medium"
+                >
+                  E-posta gönderme penceresi açıldı!
+                </MotionDiv>
+              )}
+              {submitError && (
+                 <MotionDiv
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="text-red-500 dark:text-red-400 text-center text-sm font-medium"
+                >
+                  {submitError}
+                </MotionDiv>
+              )}
+            </div>
           </MotionForm>
 
           <MotionDiv

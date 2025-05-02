@@ -1,7 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { FaPlay } from "react-icons/fa";
 import { IoChevronDown } from "react-icons/io5";
 
 interface Reel {
@@ -13,30 +12,45 @@ interface Reel {
 
 interface Props {
   reels: Reel[];
+  isInView: boolean;
 }
 
-export default function ReelsMobileSlider({ reels }: Props) {
-  const [isPlaying, setIsPlaying] = useState<{ [key: string]: boolean }>({});
+export default function ReelsMobileSlider({ reels, isInView }: Props) {
   const [currentReel, setCurrentReel] = useState(0);
   const [dragReady, setDragReady] = useState(false);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
 
   useEffect(() => {
     setDragReady(true);
   }, []);
 
-  const handleVideoPlay = (id: string) => {
-    setIsPlaying((prev) => ({ ...prev, [id]: true }));
-    Object.keys(isPlaying).forEach((key) => {
-      if (key !== id && isPlaying[key]) setIsPlaying((prev) => ({ ...prev, [key]: false }));
+  useEffect(() => {
+    videoRefs.current.forEach((videoEl, index) => {
+      if (videoEl) {
+        if (!isInView) {
+          videoEl.pause();
+        } else {
+          if (index === currentReel) {
+            videoEl.currentTime = 0;
+            const playPromise = videoEl.play();
+            if (playPromise !== undefined) {
+              playPromise.catch(error => {
+                console.error(`Video autoplay failed for index ${index}:`, error);
+              });
+            }
+          } else {
+            videoEl.pause();
+          }
+        }
+      }
     });
-  };
+  }, [currentReel, isInView]);
 
   return (
     <div className="relative h-[80vh] overflow-hidden rounded-lg">
       <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 bg-black/20 backdrop-blur-sm px-3 py-1 rounded-full text-white text-sm">
         {currentReel + 1} / {reels.length}
       </div>
-      {/* Reels */}
       <motion.div
         className="h-full"
         drag={dragReady ? "y" : false}
@@ -46,10 +60,8 @@ export default function ReelsMobileSlider({ reels }: Props) {
           if (dragReady && Math.abs(info.offset.y) > 100) {
             if (info.offset.y > 0 && currentReel > 0) {
               setCurrentReel((prev) => prev - 1);
-              setIsPlaying({});
             } else if (info.offset.y < 0 && currentReel < reels.length - 1) {
               setCurrentReel((prev) => prev + 1);
-              setIsPlaying({});
             }
           }
         }}
@@ -65,27 +77,16 @@ export default function ReelsMobileSlider({ reels }: Props) {
               y: `${(index - currentReel) * 100}%`,
             }}
             transition={{ duration: 0.5 }}
-            onClick={() => handleVideoPlay(reel.id)}
           >
             <div className="w-full h-full bg-background/80 backdrop-blur-sm overflow-hidden border border-blue-500/10 relative">
               <video
+                ref={el => { videoRefs.current[index] = el; }}
                 id={`mobile-${reel.id}`}
                 src={reel.src}
                 className="w-full h-full object-cover"
                 loop
                 playsInline
-                muted
-                autoPlay={isPlaying[reel.id]}
-                onPlay={() => setIsPlaying((prev) => ({ ...prev, [reel.id]: true }))}
-                onPause={() => setIsPlaying((prev) => ({ ...prev, [reel.id]: false }))}
               />
-              {!isPlaying[reel.id] && (
-                <div className="absolute inset-0 flex items-center justify-center bg-black/20">
-                  <div className="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center backdrop-blur-sm border border-white/20">
-                    <FaPlay className="w-8 h-8 text-white" />
-                  </div>
-                </div>
-              )}
               <div
                 className="absolute bottom-0 left-0 right-0 h-2/5 bg-gradient-to-t from-black/80 to-transparent pointer-events-none"
                 aria-hidden="true"
@@ -111,10 +112,11 @@ export default function ReelsMobileSlider({ reels }: Props) {
             repeatType: "loop",
             ease: "easeInOut",
           }}
+          style={{ pointerEvents: 'none' }}
         >
           <IoChevronDown size={28} />
         </motion.div>
       )}
     </div>
   );
-} 
+}
