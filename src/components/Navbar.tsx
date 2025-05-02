@@ -38,12 +38,12 @@ export default function Navbar() {
   return (
     <nav
       className={`
-        w-full flex justify-center fixed top-0 left-0 z-50 px-2 bg-transparent
+        w-full flex fixed top-0 left-0 z-50 bg-transparent
         transition-all duration-300 ease-in-out
         ${scrolled ? 'py-2' : 'py-4'} 
       `}
     >
-      <div className="w-full max-w-7xl flex items-center justify-between rounded-full shadow-lg bg-white/80 dark:bg-black/70 backdrop-blur-lg border border-gray-200 dark:border-gray-800 px-4 sm:px-6 py-2 gap-4">
+      <div className="w-full max-w-7xl mx-auto flex items-center justify-between rounded-full shadow-lg bg-white/80 dark:bg-black/70 backdrop-blur-lg border border-gray-200 dark:border-gray-800 px-4 sm:px-6 py-2 gap-4">
         {/* Logo */}
         <Link href="#hero" className="flex items-center gap-2 font-extrabold text-xl sm:text-2xl text-gray-900 dark:text-white tracking-tight">
           <span className="bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">MURATUSTA</span>

@@ -31,9 +31,9 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}
       >
         {/* Global blur efektli arka planlar */}
-        <div className="fixed -top-32 -left-32 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl z-0 pointer-events-none" />
+        {/* <div className="fixed -top-32 -left-32 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl z-0 pointer-events-none" />
         <div className="fixed top-1/3 -right-40 w-[32rem] h-[20rem] bg-blue-300/15 rounded-full blur-2xl z-0 pointer-events-none" />
-        <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-[40rem] h-40 bg-blue-200/20 rounded-full blur-2xl z-0 pointer-events-none" />
+        <div className="fixed bottom-0 left-1/2 -translate-x-1/2 w-[40rem] h-40 bg-blue-200/20 rounded-full blur-2xl z-0 pointer-events-none" /> */}
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Navbar />
           {children}

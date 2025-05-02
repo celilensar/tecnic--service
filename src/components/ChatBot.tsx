@@ -51,7 +51,7 @@ export default function ChatBot() {
             exit={{ opacity: 0, y: 100, scale: 0.3 }}
             transition={{ type: "spring", stiffness: 300, damping: 20 }} // Orijinal transition
             // Orijinal stiller geri getirildi
-            className="fixed bottom-20 right-1/2 translate-x-1/2 sm:right-4 sm:translate-x-0 z-50 w-[90vw] max-w-[350px] bg-background/80 backdrop-blur-sm rounded-2xl shadow-lg border border-blue-500/10 overflow-hidden"
+            className="fixed bottom-20 inset-x-4 sm:inset-x-auto sm:right-4 z-50 max-w-[350px] bg-background/80 backdrop-blur-sm rounded-2xl shadow-lg border border-blue-500/10 overflow-hidden"
           >
             {/* Chat Header - Stiller orijinal koda göre güncellendi */}
             <div className="bg-blue-500/10 p-4 flex items-center justify-between border-b border-blue-500/10">
