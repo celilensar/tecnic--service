@@ -1,6 +1,5 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import dynamic from "next/dynamic";
 import { motion, useInView } from "framer-motion";
 import { FaPlay } from "react-icons/fa";
 import ReelsMobileSlider from "./ReelsMobileSlider";

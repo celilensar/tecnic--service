@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import Image from 'next/image';
 
 // Hero banner resimleri
 const banners = ["/herobanner.png", "/herobanner2.png"];
@@ -44,14 +43,6 @@ export default function Hero() {
               alt={`Hero Background ${index + 1}`}
               className="w-full h-full object-cover"
             />
-            {/* <Image
-              src={banner}
-              alt={`Hero Background ${index + 1}`}
-              layout="fill"
-              objectFit="cover"
-              priority={index === 0} // İlk banner'a öncelik ver
-              className="transition-opacity duration-1000 ease-in-out" // Animasyon için className
-            /> */}
           </motion.div>
         ))}
         {/* Overlay */}
