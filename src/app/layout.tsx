@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-x-hidden`}
       >
         {/* Global blur efektli arka planlar */}
         <div className="fixed -top-32 -left-32 w-96 h-96 bg-blue-400/20 rounded-full blur-3xl z-0 pointer-events-none" />
